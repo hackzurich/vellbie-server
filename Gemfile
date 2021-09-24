@@ -3,7 +3,7 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '2.7.0'
+ruby '2.7.3'
 
 gem 'bcrypt', '~> 3.1.7'
 gem 'jbuilder', '~> 2.7'
@@ -20,8 +20,39 @@ gem 'image_processing', '~> 1.2'
 gem 'bootsnap', '>= 1.4.2', require: false
 
 gem 'rubocop', require: false
+gem 'solargraph', require: false
+
+gem 'rswag', '~> 2.4'
+
+# API
+
+gem 'interactor-rails', '~> 2.2', '>= 2.2.1'
+gem 'jsonapi-serializer', '~> 2.2'
+gem 'kaminari', '~> 1.2', '>= 1.2.1'
+
+gem 'pg_search', '~> 2.3', '>= 2.3.5'
+
+gem 'rollbar'
+gem 'rswag-api', '~> 2.4'
+gem 'rswag-ui', '~> 2.4'
+gem 'sidekiq', '~> 6.2', '>= 6.2.2'
+
+gem 'pundit', '~> 2.1', '>= 2.1.1'
+
+gem 'devise', '~> 4.8'
+gem 'devise_invitable', '~> 2.0', '>= 2.0.5'
+gem 'doorkeeper', '~> 5.5', '>= 5.5.2'
+gem 'doorkeeper-jwt', '~> 0.4.0'
+gem 'factory_bot_rails', '~> 6.2'
+gem 'faker', '~> 2.18'
+gem 'faraday'
+
+gem 'trestle', '~> 0.9.5'
 
 group :development, :test do
+  gem 'database_cleaner', '~> 2.0', '>= 2.0.1'
+  gem 'rspec-rails', '~> 5.0', '>= 5.0.2'
+  gem 'rswag-specs', '~> 2.4'
 end
 
 group :development do
