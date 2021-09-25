@@ -1,0 +1,47 @@
+---
+openapi: 3.0.1
+info:
+  title: API V1
+  version: v1
+paths:
+  "/api/signup":
+    post:
+      summary: creates user account with app credentials
+      tags:
+      - User
+      description: POST with user and app payload creates a user record
+      parameters: []
+      responses:
+        '200':
+          description: creates a user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user:
+                  type: object
+                  properties:
+                    email:
+                      type: string
+                      default: test@test.com
+                    password:
+                      type: string
+                      default: 123456abc@
+                    terms_accepted_at:
+                      type: boolean
+                    client_id:
+                      type: string
+                      default: yPomFOwElqDKvSDk82PuKipmo0LScIm4j_5H_zB5_KM
+                    client_secret:
+                      type: string
+                      default: MzUuHA6_DnNZme61VY2Zzc3mxqzS53H0iNGuqIcW6aE
+servers:
+- url: http://localhost:3000
+  description: Local development
+  variables:
+    defaultHost:
+      default: localhost:3000
+- url: https://vellbie-server-staging.herokuapp.com
+  description: Staging server

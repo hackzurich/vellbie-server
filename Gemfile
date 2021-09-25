@@ -15,6 +15,8 @@ gem 'sass-rails', '>= 6'
 gem 'turbolinks', '~> 5'
 gem 'webpacker', '~> 4.0'
 
+gem 'react-rails'
+
 gem 'image_processing', '~> 1.2'
 
 gem 'bootsnap', '>= 1.4.2', require: false
@@ -51,6 +53,9 @@ gem 'trestle', '~> 0.9.5'
 
 group :development, :test do
   gem 'database_cleaner', '~> 2.0', '>= 2.0.1'
+  gem 'pry-rails'
+  gem 'pry-rescue'
+  gem 'pry-stack_explorer'
   gem 'rspec-rails', '~> 5.0', '>= 5.0.2'
   gem 'rswag-specs', '~> 2.4'
 end

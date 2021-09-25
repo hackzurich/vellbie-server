@@ -33,6 +33,7 @@ module VellbieServer
     # the framework and any gems in your application.
 
     # Don't generate system test files.
+    config.autoload_paths += %w[lib/]
     config.generators.system_tests = nil
   end
 end

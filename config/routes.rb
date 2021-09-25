@@ -5,5 +5,15 @@ Rails.application.routes.draw do
   devise_for :users
   mount Rswag::Ui::Engine => '/api-docs'
   mount Rswag::Api::Engine => '/api-docs'
-  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
+
+  scope defaults: { format: :json } do
+    use_doorkeeper do
+      controllers tokens: 'api/users/tokens'
+    end
+
+    namespace :api do
+      resources :user
+      post 'signup', to: 'registrations#create'
+    end
+  end
 end

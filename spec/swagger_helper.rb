@@ -24,12 +24,17 @@ RSpec.configure do |config|
       paths: {},
       servers: [
         {
-          url: 'https://{defaultHost}',
+          url: 'http://localhost:3000',
+          description: 'Local development',
           variables: {
             defaultHost: {
-              default: 'www.example.com'
+              default: 'localhost:3000'
             }
           }
+        },
+        {
+          url: 'https://vellbie-server-staging.herokuapp.com',
+          description: 'Staging server'
         }
       ]
     }
