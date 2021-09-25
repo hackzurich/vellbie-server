@@ -4,6 +4,40 @@ info:
   title: API V1
   version: v1
 paths:
+  "/api/activity":
+    get:
+      summary: GET user activity
+      tags:
+      - User::Activity
+      description: User recent activities
+      security:
+      - Bearer: []
+      responses:
+        '200':
+          description: GET /api/activities
+    post:
+      summary: POST user activity
+      tags:
+      - User::Activity
+      description: Create new activity
+      security:
+      - Bearer: []
+      parameters: []
+      responses:
+        '200':
+          description: POST user activity
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                activity:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      default: 2
   "/oauth/token":
     post:
       summary: returns a login credentials

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "Api::Goals", type: :request do
+RSpec.describe 'Api::Goals', type: :request do
   path '/api/goals' do
     get 'GET all current goals' do
       tags 'User::Goals'

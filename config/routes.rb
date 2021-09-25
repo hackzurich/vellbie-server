@@ -15,6 +15,7 @@ Rails.application.routes.draw do
       get :goals, to: 'goals#index'
       resources :user
       post 'signup', to: 'registrations#create'
+      resources :activity, only: %i[index show create]
     end
   end
   resource :auth, only: %i[create]
