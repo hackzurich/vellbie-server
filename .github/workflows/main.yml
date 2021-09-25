@@ -1,70 +1,59 @@
-name: CI
+name: CI RSpec Tests
 
-on: [push]
+on: [push, pull_request]
+  push:
+   paths:
+   - 'api/**'
+  pull_request:
+    paths:
+    - 'api/**'
 
 jobs:
-  rspec:
-   runs-on: ubuntu-latest
-    container:
-      image: ruby:2.7.3
+  build:
+    name: CI
+    runs-on: ubuntu-latest
+    env:
+      api-dir: ./api 
 
     services:
       postgres:
-        image: postgres:10.8
-        env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: ""
-          POSTGRES_DB: postgres
-        ports:
-        - 5432:5432
-        # needed because the postgres container does not provide a healthcheck
+        image: postgres:11.6
+        ports: ["5432:5432"]
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+      redis:
+        image: redis
+        ports: ["6379:6379"]
+      elasticsearch:
+        image: elasticsearch:6.8.8
+        ports: ["9200:9200"]
+        options: -e="discovery.type=single-node" --health-cmd="curl http://localhost:9200/_cluster/health" --health-interval=10s --health-timeout=5s --health-retries=10
 
     steps:
-    - uses: actions/checkout@v1
+      - uses: actions/checkout@v1
+      - uses: actions/setup-ruby@v1
+        with:
+          ruby-version: 2.6.6
 
-    - uses: actions/setup-node@v1
-      with:
-        node-version: '10.x'
-        registry-url: 'https://registry.npmjs.org'
+      - name: Install PostgreSQL
+        run: sudo apt-get -yqq install libpq-dev
 
-    - name: Gem cache
-      id: cache-bundle
-      uses: actions/cache@v1
-      with:
-        path: vendor/bundle
-        key: bundle-${{ hashFiles('**/Gemfile.lock') }}
+      - name: Run bundle install
+        working-directory: ${{env.api-dir}}
+        run: |
+          gem install bundler
+          bundle install --jobs 4 --retry 3
+      - name: Setup Database
+        working-directory: ${{env.api-dir}}
+        env:
+          RAILS_ENV: test
+          PGHOST: localhost
+          PGUSER: postgres
+        run: bin/rails db:create db:schema:load
 
-    - name: Bundle install
-      env:
-        RAILS_ENV: test
-      run: |
-        gem install bundler
-        bundle install --jobs 4 --retry 3 --path vendor/bundle
-    - name: Install yarn
-      run: npm install -g yarn
-
-    # NOTE: Yarn cache doesn't seem to be working quite yet
-    - name: Get yarn cache dir
-      id: yarn-cache-dir
-      run: echo "::set-output name=dir::$(yarn cache dir)"
-
-    - name: Yarn cache
-      id: cache-yarn
-      uses: actions/cache@v1
-      with:
-        path: ${{ steps.yarn-cache-dir.outputs.dir }}
-        key: yarn-${{ hashFiles('**/yarn.lock') }}
-
-    - name: Yarn install
-      run: yarn install
-
-    - name: Setup DB, Run tests
-      env:
-        PGHOST: postgres
-        PGUSER: postgres
-        PGPORT: ${{ job.services.postgres.ports[5432] }}
-        RAILS_ENV: test
-      run: |
-        bin/rails db:create db:schema:load
-        bin/rspec
+      - name: Build and test with rspec
+        working-directory: ${{env.api-dir}}
+        env:
+          RAILS_ENV: test
+          PGHOST: localhost
+          PGUSER: postgres
+        run: ./bin/rspec spec
