@@ -94,5 +94,5 @@ jobs:
       - name: Install gems
         run: bundle install --jobs 4 --retry 3 --path vendor/bundle
 
-      - name: Run Rubocop
-        run: bundle exec rubocop
+      # - name: Run Rubocop
+        # run: bundle exec rubocop
