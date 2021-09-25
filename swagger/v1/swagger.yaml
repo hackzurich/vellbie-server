@@ -68,6 +68,27 @@ paths:
                 client_secret:
                   type: string
                   default: MzUuHA6_DnNZme61VY2Zzc3mxqzS53H0iNGuqIcW6aE
+  "/api/challenges":
+    post:
+      summary: Create a new user challenge
+      description: User accepts and aprticipates to a challenge
+      tags:
+      - User::Challenges
+      security:
+      - Bearer: []
+      parameters: []
+      responses:
+        '200':
+          description: POST /api/challenge
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                challenge_id:
+                  type: integer
+                  default: 3
   "/api/dashboard":
     get:
       summary: fetches user dashboard data
@@ -109,8 +130,6 @@ paths:
       tags:
       - User::Goals
       description: Goals to display on user profile creation process
-      security:
-      - Bearer: []
       responses:
         '200':
           description: GET Goals JSON

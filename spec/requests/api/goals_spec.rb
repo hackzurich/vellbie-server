@@ -8,7 +8,6 @@ RSpec.describe 'Api::Goals', type: :request do
       tags 'User::Goals'
       description 'Goals to display on user profile creation process'
       consumes 'application/json'
-      security [Bearer: []]
 
       response '200', 'GET Goals JSON' do
         let(:goal) { create_list :goal, 2 }
