@@ -18,6 +18,7 @@ Rails.application.routes.draw do
       post 'signup', to: 'registrations#create'
 
       resources :user
+      resources :challenges, only: %i[index show create]
       resources :activity, only: %i[index show create]
     end
   end

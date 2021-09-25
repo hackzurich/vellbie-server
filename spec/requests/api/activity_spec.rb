@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
-RSpec.describe "Api::Activities", type: :request do
+RSpec.describe 'Api::Activities', type: :request do
   path '/api/activity' do
     get 'GET user activity' do
       tags 'User::Activity'

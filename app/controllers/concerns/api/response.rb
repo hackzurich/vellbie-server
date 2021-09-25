@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Api
   module Response # rubocop:todo Style/Documentation
     def json_response(object, status = :ok)

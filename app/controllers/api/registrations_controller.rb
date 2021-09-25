@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Api
   # User registration controller
   class RegistrationsController < Api::BaseController

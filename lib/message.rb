@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Message class to handle all messages in one place
 class Message
   class << self

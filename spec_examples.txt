@@ -4,6 +4,7 @@ example_id                                           | status  | run_time       
 ./spec/requests/api/activity_spec.rb[1:1:1:1:1]      | passed  | 1.01 seconds    |
 ./spec/requests/api/activity_spec.rb[1:1:2:1:1]      | passed  | 0.09431 seconds |
 ./spec/requests/api/auth_spec.rb[1:1:1:1:1:1]        | passed  | 0.2738 seconds  |
+./spec/requests/api/challenge_spec.rb[1:1:1:1:1]     | failed  | 0.42986 seconds |
 ./spec/requests/api/dashboard_spec.rb[1:1:1:1:1]     | passed  | 0.16121 seconds |
 ./spec/requests/api/export_spec.rb[1:1:1:1:1]        | passed  | 0.11123 seconds |
 ./spec/requests/api/goals_spec.rb[1:1:1:1:1]         | passed  | 0.06834 seconds |

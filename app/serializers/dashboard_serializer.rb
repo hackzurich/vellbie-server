@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class DashboardSerializer
   include JSONAPI::Serializer
   attribute :user do |record|

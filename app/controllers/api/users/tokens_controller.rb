@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Api
   module Users
     # Api::Users::TokensController overrides Doorkeeper::TokensController
@@ -14,11 +16,9 @@ module Api
       protected
 
       def user_meta
-          (
-            return UserSerializer
-              .new(resource_owner_from_credentials)
-              .serializable_hash
-          )
+        UserSerializer
+          .new(resource_owner_from_credentials)
+          .serializable_hash
       end
     end
   end

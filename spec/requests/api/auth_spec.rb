@@ -33,7 +33,6 @@ RSpec.describe '/api/oauth/token', type: :request do # rubocop:disable Metrics/B
             }
           end
 
-
           run_test!
         end
       end

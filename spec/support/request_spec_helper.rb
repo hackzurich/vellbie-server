@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module RequestSpecHelper
   # Parse JSON response to ruby hash
   def json
@@ -21,4 +23,3 @@ module RequestSpecHelper
     FactoryBot.create(:access_token, resource_owner_id: user.id)
   end
 end
-

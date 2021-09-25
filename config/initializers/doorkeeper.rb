@@ -18,9 +18,7 @@ Doorkeeper.configure do # rubocop:todo Metrics/BlockLength
   resource_owner_from_credentials do |_routes|
     user = User.find_for_database_authentication(email: params[:email])
 
-    if user&.valid_for_authentication? { user.valid_password?(params[:password]) }
-      user
-    end
+    user if user&.valid_for_authentication? { user.valid_password?(params[:password]) }
   end
 
   skip_authorization do
