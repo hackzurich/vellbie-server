@@ -36,7 +36,18 @@ RSpec.configure do |config|
           url: 'https://vellbie-server-staging.herokuapp.com',
           description: 'Staging server'
         }
-      ]
+      ],
+
+      components: {
+        securitySchemes: {
+          Bearer: {
+            description: 'JWT key necessary to use API calls',
+            type: :apiKey,
+            name: 'Authorization',
+            in: :header
+          }
+        }
+      }
     }
   }
 

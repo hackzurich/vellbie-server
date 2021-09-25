@@ -1,3 +1,6 @@
-example_id                                    | status | run_time        |
---------------------------------------------- | ------ | --------------- |
-./spec/requests/api/auth_spec.rb[1:1:1:1:1:1] | passed | 0.62555 seconds |
+example_id                                           | status  | run_time        |
+---------------------------------------------------- | ------- | --------------- |
+./spec/requests/api/auth_spec.rb[1:1:1:1:1:1]        | passed  | 0.86426 seconds |
+./spec/requests/api/base_spec.rb[1:1:1]              | pending | 0.00002 seconds |
+./spec/requests/api/dashboard_spec.rb[1:1:1:1:1]     | passed  | 0.06016 seconds |
+./spec/requests/api/registrations_spec.rb[1:1:1:1:1] | passed  | 0.0438 seconds  |

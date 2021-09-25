@@ -11,6 +11,7 @@ Rails.application.routes.draw do
     end
 
     namespace :api do
+      get :dashboard, to: 'dashboard#index'
       resources :user
       post 'signup', to: 'registrations#create'
     end

@@ -10,7 +10,6 @@ module Api
         @current_resource_owner ||= User.find(doorkeeper_token.resource_owner_id) if doorkeeper_token
 
         raise Api::ExceptionHandler::AuthenticationError if @current_resource_owner.nil?
-        raise Api::ExceptionHandler::BadRequest, 'User is not confirmed' unless @current_resource_owner.confirmed?
 
         @current_resource_owner
       end

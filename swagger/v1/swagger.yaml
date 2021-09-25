@@ -34,6 +34,17 @@ paths:
                 client_secret:
                   type: string
                   default: MzUuHA6_DnNZme61VY2Zzc3mxqzS53H0iNGuqIcW6aE
+  "/api/dashboard":
+    get:
+      summary: fetches user dashboard data
+      tags:
+      - User::Dashboard
+      description: User Dashboard JSON data
+      security:
+      - Bearer: []
+      responses:
+        '200':
+          description: GET /api/dashboard
   "/api/signup":
     post:
       summary: creates user account with app credentials
@@ -75,3 +86,10 @@ servers:
       default: localhost:3000
 - url: https://vellbie-server-staging.herokuapp.com
   description: Staging server
+components:
+  securitySchemes:
+    Bearer:
+      description: JWT key necessary to use API calls
+      type: apiKey
+      name: Authorization
+      in: header
