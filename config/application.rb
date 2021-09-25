@@ -31,6 +31,13 @@ module VellbieServer
     # Application configuration can go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded after loading
     # the framework and any gems in your application.
+    config.active_record.schema_format = :sql
+
+    config.generators do |generate|
+      generate.helper false
+      generate.assets false
+      generate.view_specs false
+    end
 
     # Don't generate system test files.
     config.autoload_paths += %w[lib/]
