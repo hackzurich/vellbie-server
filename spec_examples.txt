@@ -8,4 +8,5 @@ example_id                                           | status  | run_time       
 ./spec/requests/api/dashboard_spec.rb[1:1:1:1:1]     | passed  | 0.16121 seconds |
 ./spec/requests/api/export_spec.rb[1:1:1:1:1]        | passed  | 0.11123 seconds |
 ./spec/requests/api/goals_spec.rb[1:1:1:1:1]         | passed  | 0.06834 seconds |
+./spec/requests/api/import_spec.rb[1:1:1:1:1]        | failed  | 0.55062 seconds |
 ./spec/requests/api/registrations_spec.rb[1:1:1:1:1] | passed  | 0.06311 seconds |

@@ -15,6 +15,7 @@ Rails.application.routes.draw do
       get :goals, to: 'goals#index'
 
       post :export, to: 'export#create'
+      post :import, to: 'import#create'
       post 'signup', to: 'registrations#create'
 
       resources :user

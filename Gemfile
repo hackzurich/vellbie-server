@@ -51,8 +51,8 @@ gem 'doorkeeper', '~> 5.5', '>= 5.5.2'
 gem 'doorkeeper-jwt', '~> 0.4.0'
 gem 'factory_bot_rails', '~> 6.2'
 gem 'faker', '~> 2.18'
+gem 'faraday'
 gem 'rspec'
-# gem 'faraday'
 
 gem 'trestle', '~> 0.9.5'
 

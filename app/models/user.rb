@@ -9,4 +9,5 @@ class User < ApplicationRecord
   has_many :goals, through: :user_goals
   has_many :user_activities
   has_many :activities, through: :user_activities
+  has_many :stress_logs, class_name: 'StressDatum'
 end

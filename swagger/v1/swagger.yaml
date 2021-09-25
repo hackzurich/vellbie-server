@@ -133,6 +133,30 @@ paths:
       responses:
         '200':
           description: GET Goals JSON
+  "/api/import":
+    post:
+      summary: Imports FitRockr user data
+      tags:
+      - User::FitRockr
+      security:
+      - Bearer: []
+      description: Imports Garmin data from FitRockr API to the app DB
+      parameters: []
+      responses:
+        '200':
+          description: POST /api/imports
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                startDate:
+                  type: string
+                  default: '2021-09-24'
+                endDate:
+                  type: string
+                  default: '2021-09-25'
   "/api/signup":
     post:
       summary: creates user account with app credentials

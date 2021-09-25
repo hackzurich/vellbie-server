@@ -241,6 +241,41 @@ CREATE TABLE public.schema_migrations (
 
 
 --
+-- Name: stress_data; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.stress_data (
+    id bigint NOT NULL,
+    user_id bigint NOT NULL,
+    uid character varying,
+    meta json,
+    calendar_date character varying,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL,
+    stress_level integer
+);
+
+
+--
+-- Name: stress_data_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.stress_data_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: stress_data_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.stress_data_id_seq OWNED BY public.stress_data.id;
+
+
+--
 -- Name: user_activities; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -382,6 +417,13 @@ ALTER TABLE ONLY public.oauth_applications ALTER COLUMN id SET DEFAULT nextval('
 
 
 --
+-- Name: stress_data id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.stress_data ALTER COLUMN id SET DEFAULT nextval('public.stress_data_id_seq'::regclass);
+
+
+--
 -- Name: user_activities id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -464,6 +506,14 @@ ALTER TABLE ONLY public.oauth_applications
 
 ALTER TABLE ONLY public.schema_migrations
     ADD CONSTRAINT schema_migrations_pkey PRIMARY KEY (version);
+
+
+--
+-- Name: stress_data stress_data_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.stress_data
+    ADD CONSTRAINT stress_data_pkey PRIMARY KEY (id);
 
 
 --
@@ -558,6 +608,20 @@ CREATE UNIQUE INDEX index_oauth_access_tokens_on_token ON public.oauth_access_to
 --
 
 CREATE UNIQUE INDEX index_oauth_applications_on_uid ON public.oauth_applications USING btree (uid);
+
+
+--
+-- Name: index_stress_data_on_uid; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_stress_data_on_uid ON public.stress_data USING btree (uid);
+
+
+--
+-- Name: index_stress_data_on_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_stress_data_on_user_id ON public.stress_data USING btree (user_id);
 
 
 --
@@ -659,6 +723,14 @@ ALTER TABLE ONLY public.oauth_access_grants
 
 
 --
+-- Name: stress_data fk_rails_e9c4566af6; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.stress_data
+    ADD CONSTRAINT fk_rails_e9c4566af6 FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+
+--
 -- PostgreSQL database dump complete
 --
 
@@ -671,6 +743,9 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210925105003'),
 ('20210925113158'),
 ('20210925113221'),
-('20210925113301');
+('20210925113301'),
+('20210925182808'),
+('20210925202832'),
+('20210925210119');
 
 
