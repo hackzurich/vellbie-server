@@ -4,6 +4,36 @@ info:
   title: API V1
   version: v1
 paths:
+  "/oauth/token":
+    post:
+      summary: returns a login credentials
+      tags:
+      - User
+      parameters: []
+      responses:
+        '200':
+          description: fetches a token
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  default: test01@test.com
+                password:
+                  type: string
+                  default: 123456abc@
+                grant_type:
+                  type: string
+                  default: password
+                client_id:
+                  type: string
+                  default: yPomFOwElqDKvSDk82PuKipmo0LScIm4j_5H_zB5_KM
+                client_secret:
+                  type: string
+                  default: MzUuHA6_DnNZme61VY2Zzc3mxqzS53H0iNGuqIcW6aE
   "/api/signup":
     post:
       summary: creates user account with app credentials

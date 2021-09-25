@@ -1,17 +1,33 @@
 # frozen_string_literal: true
 
-Doorkeeper.configure do
+Doorkeeper.configure do # rubocop:todo Metrics/BlockLength
   # Change the ORM that doorkeeper will use (requires ORM extensions installed).
   # Check the list of supported ORMs here: https://github.com/doorkeeper-gem/doorkeeper#orms
   orm :active_record
-
+  # api_only
+  # base_controller 'ActionController::API'
   # This block will be called to check whether the resource owner is authenticated or not.
   resource_owner_authenticator do
     raise "Please configure doorkeeper resource_owner_authenticator block located in #{__FILE__}"
     # Put your resource owner authentication logic here.
     # Example implementation:
-    #   User.find_by(id: session[:user_id]) || redirect_to(new_user_session_url)
+    # User.find_by(id: session[:user_id]) || redirect_to(new_user_session_url)
+    # current_user || warden.authenticate!(scope: :user)
   end
+
+  resource_owner_from_credentials do |_routes|
+    user = User.find_for_database_authentication(email: params[:email])
+
+    if user&.valid_for_authentication? { user.valid_password?(params[:password]) }
+      user
+    end
+  end
+
+  skip_authorization do
+    true
+  end
+
+  grant_flows %w[password]
 
   # If you didn't skip applications controller from Doorkeeper routes in your application routes.rb
   # file then you need to declare this block in order to restrict access to the web interface for
@@ -93,7 +109,7 @@ Doorkeeper.configure do
   # Access token expiration time (default: 2 hours).
   # If you want to disable expiration, set this to `nil`.
   #
-  # access_token_expires_in 2.hours
+  access_token_expires_in Rails.env.development? ? 24.hours : 8.hours
 
   # Assign custom TTL for access tokens. Will be used instead of access_token_expires_in
   # option if defined. In case the block returns `nil` value Doorkeeper fallbacks to
@@ -115,14 +131,61 @@ Doorkeeper.configure do
   # Use a custom class for generating the access token.
   # See https://doorkeeper.gitbook.io/guides/configuration/other-configurations#custom-access-token-generator
   #
-  # access_token_generator '::Doorkeeper::JWT'
+  access_token_generator '::Doorkeeper::JWT'
+
+  Doorkeeper::JWT.configure do
+    # Set the payload for the JWT token. This should contain unique information
+    # about the user. Defaults to a randomly generated token in a hash:
+    #     { token: "RANDOM-TOKEN" }
+    token_payload do |opts|
+      user = User.find(opts[:resource_owner_id])
+
+      {
+        iss: 'My App',
+        iat: Time.current.utc.to_i,
+
+        # @see JWT reserved claims - https://tools.ietf.org/html/draft-jones-json-web-token-07#page-7
+        jti: SecureRandom.uuid,
+
+        user: {
+          id: user.id,
+          email: user.email
+        }
+      }
+    end
+
+    # Optionally set additional headers for the JWT. See
+    # https://tools.ietf.org/html/rfc7515#section-4.1
+    token_headers do |opts|
+      { kid: opts.fetch(:application, :uid) }
+    end
+
+    # Use the application secret specified in the access grant token. Defaults to
+    # `false`. If you specify `use_application_secret true`, both `secret_key` and
+    # `secret_key_path` will be ignored.
+    use_application_secret false
+
+    # Set the encryption secret. This would be shared with any other applications
+    # that should be able to read the payload of the token. Defaults to "secret".
+    # secret_key ENV['JWT_SECRET']
+    secret_key 'JWT-Secret'
+
+    # If you want to use RS* encoding specify the path to the RSA key to use for
+    # signing. If you specify a `secret_key_path` it will be used instead of
+    # `secret_key`.
+    # secret_key_path File.join('path', 'to', 'file.pem')
+
+    # Specify encryption type (https://github.com/progrium/ruby-jwt). Defaults to
+    # `nil`.
+    encryption_method :hs512
+  end
 
   # The controller +Doorkeeper::ApplicationController+ inherits from.
   # Defaults to +ActionController::Base+ unless +api_only+ is set, which changes the default to
   # +ActionController::API+. The return value of this option must be a stringified class name.
   # See https://doorkeeper.gitbook.io/guides/configuration/other-configurations#custom-controllers
   #
-  # base_controller 'ApplicationController'
+  # base_controller 'Api::BaseController'
 
   # Reuse access token for the same resource owner within an application (disabled by default).
   #
@@ -276,7 +339,7 @@ Doorkeeper.configure do
   # force_ssl_in_redirect_uri { |uri| uri.host != 'localhost' }
 
   # Specify what redirect URI's you want to block during Application creation.
-  # Any redirect URI is allowed by default.
+  # Any redirect URI is whitelisted by default.
   #
   # You can use this option in order to forbid URI's with 'javascript' scheme
   # for example.
@@ -291,7 +354,7 @@ Doorkeeper.configure do
   #
   # You can completely disable this feature with:
   #
-  # allow_blank_redirect_uri false
+  allow_blank_redirect_uri true
   #
   # Or you can define your custom check:
   #
@@ -343,8 +406,8 @@ Doorkeeper.configure do
   #
   # implicit and password grant flows have risks that you should understand
   # before enabling:
-  #   https://datatracker.ietf.org/doc/html/rfc6819#section-4.4.2
-  #   https://datatracker.ietf.org/doc/html/rfc6819#section-4.4.3
+  #   http://tools.ietf.org/html/rfc6819#section-4.4.2
+  #   http://tools.ietf.org/html/rfc6819#section-4.4.3
   #
   # grant_flows %w[authorization_code client_credentials]
 
@@ -387,14 +450,14 @@ Doorkeeper.configure do
   # Be default all Resource Owners are authorized to any Client (application).
   #
   # authorize_resource_owner_for_client do |client, resource_owner|
-  #   resource_owner.admin? || client.owners_allowlist.include?(resource_owner)
+  #   resource_owner.admin? || client.owners_whitelist.include?(resource_owner)
   # end
 
   # Hook into the strategies' request & response life-cycle in case your
   # application needs advanced customization or logging:
   #
   # before_successful_strategy_response do |request|
-  #   puts "BEFORE HOOK FIRED! #{request}"
+  # puts "BEFORE HOOK FIRED! #{request}"
   # end
   #
   # after_successful_strategy_response do |request, response|
@@ -428,7 +491,8 @@ Doorkeeper.configure do
   # For example if dealing with a trusted application.
   #
   # skip_authorization do |resource_owner, client|
-  #   client.superapp? or resource_owner.admin?
+  # client.superapp? or resource_owner.admin?
+  # true
   # end
 
   # Configure custom constraints for the Token Introspection request.

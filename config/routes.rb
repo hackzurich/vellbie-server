@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  use_doorkeeper
   devise_for :users
   mount Rswag::Ui::Engine => '/api-docs'
   mount Rswag::Api::Engine => '/api-docs'
@@ -16,4 +15,5 @@ Rails.application.routes.draw do
       post 'signup', to: 'registrations#create'
     end
   end
+  resource :auth, only: %i[create]
 end
