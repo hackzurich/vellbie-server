@@ -45,6 +45,17 @@ paths:
       responses:
         '200':
           description: GET /api/dashboard
+  "/api/goals":
+    get:
+      summary: GET all current goals
+      tags:
+      - User::Goals
+      description: Goals to display on user profile creation process
+      security:
+      - Bearer: []
+      responses:
+        '200':
+          description: GET Goals JSON
   "/api/signup":
     post:
       summary: creates user account with app credentials
