@@ -13,10 +13,14 @@ Rails.application.routes.draw do
     namespace :api do
       get :dashboard, to: 'dashboard#index'
       get :goals, to: 'goals#index'
-      resources :user
+
+      post :export, to: 'export#create'
       post 'signup', to: 'registrations#create'
+
+      resources :user
       resources :activity, only: %i[index show create]
     end
   end
+
   resource :auth, only: %i[create]
 end

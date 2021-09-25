@@ -79,6 +79,30 @@ paths:
       responses:
         '200':
           description: GET /api/dashboard
+  "/api/export":
+    post:
+      summary: Export User activity stats
+      tags:
+      - User::Export
+      description: Export User activity to external resource in JSON format
+      security:
+      - Bearer: []
+      parameters: []
+      responses:
+        '200':
+          description: POST /api/export
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                from:
+                  type: string
+                  default: '2021-09-25'
+                to:
+                  type: string
+                  default: '2021-09-26'
   "/api/goals":
     get:
       summary: GET all current goals
