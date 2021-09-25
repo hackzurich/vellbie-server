@@ -14,6 +14,38 @@ SET default_tablespace = '';
 SET default_table_access_method = heap;
 
 --
+-- Name: activities; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.activities (
+    id bigint NOT NULL,
+    title character varying,
+    description text,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: activities_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.activities_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: activities_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.activities_id_seq OWNED BY public.activities.id;
+
+
+--
 -- Name: ar_internal_metadata; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -23,6 +55,39 @@ CREATE TABLE public.ar_internal_metadata (
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL
 );
+
+
+--
+-- Name: challenges; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.challenges (
+    id bigint NOT NULL,
+    goal_id bigint NOT NULL,
+    level integer,
+    activity_id bigint,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: challenges_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.challenges_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: challenges_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.challenges_id_seq OWNED BY public.challenges.id;
 
 
 --
@@ -176,6 +241,38 @@ CREATE TABLE public.schema_migrations (
 
 
 --
+-- Name: user_activities; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.user_activities (
+    id bigint NOT NULL,
+    user_id bigint NOT NULL,
+    activity_id bigint NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: user_activities_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.user_activities_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: user_activities_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.user_activities_id_seq OWNED BY public.user_activities.id;
+
+
+--
 -- Name: user_goals; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -243,6 +340,20 @@ ALTER SEQUENCE public.users_id_seq OWNED BY public.users.id;
 
 
 --
+-- Name: activities id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.activities ALTER COLUMN id SET DEFAULT nextval('public.activities_id_seq'::regclass);
+
+
+--
+-- Name: challenges id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.challenges ALTER COLUMN id SET DEFAULT nextval('public.challenges_id_seq'::regclass);
+
+
+--
 -- Name: goals id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -271,6 +382,13 @@ ALTER TABLE ONLY public.oauth_applications ALTER COLUMN id SET DEFAULT nextval('
 
 
 --
+-- Name: user_activities id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.user_activities ALTER COLUMN id SET DEFAULT nextval('public.user_activities_id_seq'::regclass);
+
+
+--
 -- Name: user_goals id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -285,11 +403,27 @@ ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_
 
 
 --
+-- Name: activities activities_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.activities
+    ADD CONSTRAINT activities_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: ar_internal_metadata ar_internal_metadata_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.ar_internal_metadata
     ADD CONSTRAINT ar_internal_metadata_pkey PRIMARY KEY (key);
+
+
+--
+-- Name: challenges challenges_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.challenges
+    ADD CONSTRAINT challenges_pkey PRIMARY KEY (id);
 
 
 --
@@ -333,6 +467,14 @@ ALTER TABLE ONLY public.schema_migrations
 
 
 --
+-- Name: user_activities user_activities_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.user_activities
+    ADD CONSTRAINT user_activities_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: user_goals user_goals_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -346,6 +488,20 @@ ALTER TABLE ONLY public.user_goals
 
 ALTER TABLE ONLY public.users
     ADD CONSTRAINT users_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: index_challenges_on_activity_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_challenges_on_activity_id ON public.challenges USING btree (activity_id);
+
+
+--
+-- Name: index_challenges_on_goal_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_challenges_on_goal_id ON public.challenges USING btree (goal_id);
 
 
 --
@@ -405,6 +561,20 @@ CREATE UNIQUE INDEX index_oauth_applications_on_uid ON public.oauth_applications
 
 
 --
+-- Name: index_user_activities_on_activity_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_user_activities_on_activity_id ON public.user_activities USING btree (activity_id);
+
+
+--
+-- Name: index_user_activities_on_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_user_activities_on_user_id ON public.user_activities USING btree (user_id);
+
+
+--
 -- Name: index_user_goals_on_goal_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -441,11 +611,35 @@ ALTER TABLE ONLY public.user_goals
 
 
 --
+-- Name: challenges fk_rails_1c128f413d; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.challenges
+    ADD CONSTRAINT fk_rails_1c128f413d FOREIGN KEY (goal_id) REFERENCES public.goals(id);
+
+
+--
 -- Name: user_goals fk_rails_20014df30e; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.user_goals
     ADD CONSTRAINT fk_rails_20014df30e FOREIGN KEY (goal_id) REFERENCES public.goals(id);
+
+
+--
+-- Name: user_activities fk_rails_448025aed4; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.user_activities
+    ADD CONSTRAINT fk_rails_448025aed4 FOREIGN KEY (activity_id) REFERENCES public.activities(id);
+
+
+--
+-- Name: user_activities fk_rails_56e545161c; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.user_activities
+    ADD CONSTRAINT fk_rails_56e545161c FOREIGN KEY (user_id) REFERENCES public.users(id);
 
 
 --
@@ -474,6 +668,9 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210924220213'),
 ('20210924220257'),
 ('20210925104930'),
-('20210925105003');
+('20210925105003'),
+('20210925113158'),
+('20210925113221'),
+('20210925113301');
 
 
