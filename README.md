@@ -1,24 +1,10 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+API DOCS
 
-Things you may want to cover:
+[https://vellbie-server-staging.herokuapp.com/api-docs](https://vellbie-server-staging.herokuapp.com/api-docs)
 
-* Ruby version
+ADMIN
 
-* System dependencies
+[https://vellbie-server-staging.herokuapp.com/admin](https://vellbie-server-staging.herokuapp.com/admin)
 
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
