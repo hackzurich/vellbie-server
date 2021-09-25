@@ -15,6 +15,8 @@ gem 'sass-rails', '>= 6'
 gem 'turbolinks', '~> 5'
 gem 'webpacker', '~> 4.0'
 
+gem 'bundler-audit'
+gem 'brakeman'
 gem 'rack-cors', require: 'rack/cors'
 
 gem 'react-rails'
