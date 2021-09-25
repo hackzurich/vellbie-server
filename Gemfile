@@ -56,6 +56,7 @@ group :development, :test do
   gem 'pry-rails'
   gem 'pry-rescue'
   gem 'pry-stack_explorer'
+  gem 'rspec'
   gem 'rspec-rails', '~> 5.0', '>= 5.0.2'
   gem 'rswag-specs', '~> 2.4'
 end
