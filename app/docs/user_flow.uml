@@ -1,0 +1,64 @@
+
+       ┌─┐
+       ║"│
+       └┬┘
+       ┌┼┐
+        │            ┌───────┐          ┌────┐          ┌──────────────────┐          ┌──────────┐          ┌────────────┐          ┌──────┐          ┌───────┐
+       ┌┴┐           │Wellbie│          │Quis│          │UserDigitalProfile│          │Challanges│          │Achievements│          │Points│          │Rewards│
+      User           └───┬───┘          └─┬──┘          └────────┬─────────┘          └────┬─────┘          └─────┬──────┘          └──┬───┘          └───┬───┘
+       │                 │                │                      │                         │                      │                    │                  │
+       │ ───────────────>│                │                      │                         │                      │                    │                  │
+       │                 │                │                      │                         │                      │                    │                  │
+       │                 │                │                      │                         │                      │                    │                  │
+       │   ╔═════════════╪═════╤══════════╪══════════════════════╪═════════════════════════╪══════════════════════╪════════════════╗   │                  │
+       │   ║ GENERAL USE CASE  │          │                      │                         │                      │                ║   │                  │
+       │   ╟────────────────Sets a Goal   │                      │                         │                      │                ║   │                  │
+       │   ║             │───────────────>│                      │                         │                      │                ║   │                  │
+       │   ║             │                │                      │                         │                      │                ║   │                  │
+       │   ║             │                │   Select from list   │                         │                      │                ║   │                  │
+       │   ║             │                │ ─────────────────────>                         │                      │                ║   │                  │
+       │   ║             │                │                      │                         │                      │                ║   │                  │
+       │   ║             │                │                      │       creates           │                      │                ║   │                  │
+       │   ║             │                │                      │        or accepts       │                      │                ║   │                  │
+       │   ║             │                │                      │ ────────────────────────>                      │                ║   │                  │
+       │   ║             │                │                      │                         │                      │                ║   │                  │
+       │   ║             │                │                      │                         │    Confirms with     │                ║   │                  │
+       │   ║             │                │                      │                         │     ML and           │                ║   │                  │
+       │   ║             │                │                      │                         │     Garmin watch     │                ║   │                  │
+       │   ║             │                │                      │                         │     activity logs    │                ║   │                  │
+       │   ║             │                │                      │                         │ ─────────────────────>                ║   │                  │
+       │   ╚═════════════╪════════════════╪══════════════════════╪═════════════════════════╪══════════════════════╪════════════════╝   │                  │
+       │                 │                │                      │                         │                      │                    │                  │
+       │                 │                │                      │                         │                      │                    │                  │
+       │                 │                │                      │                         │      ╔═══════════════╪════════╤═══════════╪══════════════════╪═════════════╗
+       │                 │                │                      │                         │      ║ REWARDS FROM SPONSORS  │           │                  │             ║
+       │                 │                │                      │                         │      ╟─────────────────────Collects       │                  │             ║
+       │                 │                │                      │                         │      ║               │      confirmed     │                  │             ║
+       │                 │                │                      │                         │      ║               │ ───────────────────>                  │             ║
+       │                 │                │                      │                         │      ║               │                    │                  │             ║
+       │                 │                │                      │                         │      ║               │                    │    Spends to     │             ║
+       │                 │                │                      │                         │      ║               │                    │     a bonus      │             ║
+       │                 │                │                      │                         │      ║               │                    │ ────────────────>│             ║
+       │                 │                │                      │                         │      ╚═══════════════╪════════════════════╪══════════════════╪═════════════╝
+      User           ┌───┴───┐          ┌─┴──┐          ┌────────┴─────────┐          ┌────┴─────┐          ┌─────┴──────┐          ┌──┴───┐          ┌───┴───┐
+       ┌─┐           │Wellbie│          │Quis│          │UserDigitalProfile│          │Challanges│          │Achievements│          │Points│          │Rewards│
+       ║"│           └───────┘          └────┘          └──────────────────┘          └──────────┘          └────────────┘          └──────┘          └───────┘
+       └┬┘
+       ┌┼┐
+        │
+       ┌┴┐
+
+@startuml
+actor User
+User -> Wellbie
+group general use case
+  Wellbie -> Quis: Sets a Goal
+  Quis -> UserDigitalProfile: Select from list
+  UserDigitalProfile -> Challanges: creates \n or accepts
+  Challanges -> Achievements: Confirms with\n ML and\n Garmin watch \n activity logs
+end
+group rewards from sponsors
+  Achievements -> Points: Collects \n confirmed
+  Points -> Rewards: Spends to\n a bonus
+end
+@enduml

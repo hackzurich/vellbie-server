@@ -1,0 +1,48 @@
+
+       ┌─┐
+       ║"│
+       └┬┘
+       ┌┼┐
+        │            ┌───────────────┐          ┌─────────┐          ┌─────┐          ┌───────┐
+       ┌┴┐           │DailyChallenges│          │GoodHabit│          │Share│          │MLCoach│
+      User           └───────┬───────┘          └────┬────┘          └──┬──┘          └───┬───┘
+       │   require           │                       │                  │                 │
+       │    participation    │                       │                  │                 │
+       │ ───────────────────>│                       │                  │                 │
+       │                     │                       │                  │                 │
+       │                     │                       │                  │                 │
+       │   ╔══════════╤══════╪═══════════════════════╪══════════════════╪═════════════════╪═════════════╗
+       │   ║ VELLBIE  │      │                       │                  │                 │             ║
+       │   ╟──────────┘      │ User got used         │                  │                 │             ║
+       │   ║                 │  to do something new  │                  │                 │             ║
+       │   ║                 │──────────────────────>│                  │                 │             ║
+       │   ║                 │                       │                  │                 │             ║
+       │   ║                 │             User shares                  │                 │             ║
+       │   ║                 │              his activity                │                 │             ║
+       │   ║                 │             achievements                 │                 │             ║
+       │   ║                 │─────────────────────────────────────────>│                 │             ║
+       │   ║                 │                       │                  │                 │             ║
+       │   ║                 │                      ML guides           │                 │             ║
+       │   ║                 │                       and controls       │                 │             ║
+       │   ║                 │                       users              │                 │             ║
+       │   ║                 │───────────────────────────────────────────────────────────>│             ║
+       │   ╚═════════════════╪═══════════════════════╪══════════════════╪═════════════════╪═════════════╝
+      User           ┌───────┴───────┐          ┌────┴────┐          ┌──┴──┐          ┌───┴───┐
+       ┌─┐           │DailyChallenges│          │GoodHabit│          │Share│          │MLCoach│
+       ║"│           └───────────────┘          └─────────┘          └─────┘          └───────┘
+       └┬┘
+       ┌┼┐
+        │
+       ┌┴┐
+
+@startuml
+actor User
+User -> DailyChallenges:require \n participation
+group Vellbie
+DailyChallenges -> GoodHabit: User got used\n to do something new
+DailyChallenges -> Share: User shares \n his activity  \nachievements
+DailyChallenges -> MLCoach: ML guides \n and controls \n users
+end
+
+
+@enduml
